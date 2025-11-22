@@ -1,0 +1,27 @@
+/node_modules
+/backend/node_modules
+/frontend/node_modules
+
+npm-debug.log*
+.npm
+.eslintcache
+.nvmrc
+
+/backend/.env
+
+/backend/temp/
+/backend/logs/
+
+/frontend/build
+/frontend/dist
+
+# Storybook or other config caches
+.storybook/
+.DS_Store
+
+.DS_Store
+
+Thumbs.db
+Desktop.ini
+
+.vscode/*
