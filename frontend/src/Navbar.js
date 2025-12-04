@@ -1,4 +1,4 @@
-import Group89 from './images/Group 89.svg';
+import Group89 from './assets/images/Group 89.svg';
 
 function Navbar() {
   return (
@@ -18,6 +18,17 @@ function Navbar() {
         src={Group89}
         style={{ height: '56px', marginLeft: '38px', display: 'block' }}
       />
+      <div style={{ marginLeft: 'auto', display: 'flex', gap: '100px', alignItems: 'center', marginRight: '40px' }}>
+        <button style={{ background: 'none', border: 'none', color: 'white', fontSize: '24px', cursor: 'pointer', fontFamily: 'Montserrat', fontWeight: 'normal' }}>
+          Best grills
+        </button>
+        <button style={{ background: 'none', border: 'none', color: 'white', fontSize: '24px', cursor: 'pointer', fontFamily: 'Montserrat', fontWeight: 'normal' }}>
+          Login
+        </button>
+        <button style={{ background: 'none', border: 'none', color: 'white', fontSize: '24px', cursor: 'pointer', fontFamily: 'Montserrat', fontWeight: 'normal' }}>
+          Register
+        </button>
+      </div>
     </div>
   );
 }
