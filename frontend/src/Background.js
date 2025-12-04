@@ -66,6 +66,7 @@ function Background() {
         display: 'grid', 
         gridTemplateAreas: '"stack"',
         marginTop: '10vh',
+        marginBottom: '10vh',
       }}
     >
       <img
