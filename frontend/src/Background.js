@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, cacheSignal } from 'react';
 import Group110 from './assets/images/Group 110.svg';
 import Group133 from './assets/images/Group 133.svg';
 import Group142 from './assets/images/Group 142.svg';
-import { getScreenCategory } from './utils/screenUtils';
+import PYG from './assets/images/Pimp Your Grill.svg';
+import { getScreenCategory } from './ScreenCategory.js';
 
 function Background() {
   const [screenCategory, setScreenCategory] = useState('desktop');
@@ -29,6 +30,30 @@ function Background() {
     }
   };
 
+  const getPYGsize = () => {
+    switch (screenCategory) {
+      case 'mobile':
+        return '50%';
+      case 'medium':
+        return '35%';
+      case 'desktop':
+      default:
+        return '30%';
+    }
+  };
+
+  const getPYGmargin = () => {
+    switch (screenCategory) {
+      case 'mobile':
+        return '0vh';
+      case 'medium':
+        return '0vh';
+      case 'desktop':
+      default:
+        return '-25vh';
+    }
+  };
+
   const backgroundImage = getBackgroundImage();
 
   return (
@@ -38,16 +63,30 @@ function Background() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        display: 'grid', 
+        gridTemplateAreas: '"stack"',
+        marginTop: '10vh',
       }}
     >
       <img
         src={backgroundImage}
-        alt="Background"
         style={{
           width: '95%',
           objectFit: 'cover',
           display: 'block',
-          marginTop: '10vh',
+          gridArea: 'stack',
+        }}
+      />
+
+      <img
+        src={PYG}
+        style={{
+          width: getPYGsize(),
+          objectFit: 'cover',
+          display: 'block',
+          gridArea: 'stack',
+          placeSelf: 'center',
+          marginTop: getPYGmargin(),
         }}
       />
     </div>
