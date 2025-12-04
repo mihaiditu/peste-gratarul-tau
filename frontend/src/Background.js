@@ -34,22 +34,20 @@ function Background() {
   return (
     <div
       style={{
-        width: '100vw',
+        width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 'calc(-50vw + 50%)',
       }}
     >
       <img
         src={backgroundImage}
         alt="Background"
         style={{
-          width: '95vw',
-          height: '100%',
+          width: '95%',
           objectFit: 'cover',
           display: 'block',
-          marginTop: '85px',
+          marginTop: '10vh',
         }}
       />
     </div>
