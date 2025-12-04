@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 
 function App() {
   return (
-    <div className="App" style={{ backgroundColor: '#f0f0f0' }}>
+    <div className="App">
       <Navbar />
       <header className="App-header">
       </header>
