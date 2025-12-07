@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
 import { getScreenCategory } from './ScreenCategory.js';
 
 import mail from './assets/images/mail.svg';
-import password from './assets/images/password.svg';
 
-function LoginBox() {
+function ForgotPass() {
   const navigate = useNavigate();
-  const { login } = useAuth();
   const [screenCategory, setScreenCategory] = useState('desktop');
   
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: ''
   });
-  const [error, setError] = useState('');
 
   useEffect(() => {
     const updateCategory = () => setScreenCategory(getScreenCategory());
@@ -28,29 +23,10 @@ function LoginBox() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
-
-    try {
-      const response = await fetch('http://localhost:5000/api/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        login(data);
-        alert('Successfully Logged In!');
-        navigate('/');
-      } else {
-        setError(data.message || 'Something went wrong');
-      }
-    } catch (err) {
-      setError('Failed to connect to the server.');
-    }
+    // No functionality as requested
+    console.log("Send password reset to:", formData.email);
   };
 
   const getBoxWidth = () => {
@@ -141,14 +117,6 @@ function LoginBox() {
     }
   };
 
-  const getTextMarginBottom = () => {
-    switch (screenCategory) {
-      case 'mobile': return '20px';
-      case 'medium': return '20px';
-      default: return '30px';
-    }
-  };
-
   const getTextMarginTop = () => {
     switch (screenCategory) {
       case 'mobile': return '15px';
@@ -202,21 +170,19 @@ function LoginBox() {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: 'center', // Centered vertically since content is less
+      gap: '20px',
       zIndex: 10 
     }}>
       <h2 style={{ 
         fontFamily: 'Montserrat', 
         color: '#ffffff', 
-        marginBottom: '0',
+        marginBottom: '20px',
         fontSize: getTitleSize(),
         textAlign: 'center'
       }}>
-        <div>Bine ai revenit</div>
-        <div>mare grătaragiu!</div>
+        Forgot password
       </h2>
-
-      {error && <p style={{ color: '#ff0000', fontFamily: 'Montserrat', fontSize: getTextFontSize() }}>{error}</p>}
 
       <form onSubmit={handleSubmit} style={{ width: getFormWidth(), display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         
@@ -226,18 +192,6 @@ function LoginBox() {
             type="email" 
             name="email" 
             placeholder="E-mail" 
-            style={inputStyle} 
-            onChange={handleChange} 
-            required 
-          />
-        </div>
-        
-        <div style={inputContainerStyle}>
-          <img src={password} alt="password icon" style={iconStyle} />
-          <input 
-            type="password" 
-            name="password" 
-            placeholder="Password" 
             style={inputStyle} 
             onChange={handleChange} 
             required 
@@ -264,27 +218,11 @@ function LoginBox() {
           onMouseOver={(e) => e.target.style.backgroundColor = '#218838'}
           onMouseOut={(e) => e.target.style.backgroundColor = '#009C41'}
         >
-          Log in
+          Send
         </button>
       </form>
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        {/* ADDED ONCLICK HERE */}
-        <p 
-          style={{ 
-            marginTop: '0', 
-            marginBottom: getTextMarginBottom(),
-            fontFamily: 'Montserrat', 
-            cursor: 'pointer',
-            fontSize: getTextFontSize(),
-            color: '#e0e0e0',
-            textDecoration: 'underline'
-          }}
-          onClick={() => navigate('/forgot-password')} 
-        >
-          Forgot password
-        </p>
-
         <p 
           style={{ 
             marginTop: getTextMarginTop(), 
@@ -293,13 +231,12 @@ function LoginBox() {
             color: '#ccc',
             fontSize: getTextFontSize()
           }}
-          onClick={() => navigate('/register')}
+          onClick={() => navigate('/')} // Assuming '/' is login, change if needed
         >
-          No account? Press here to <span style={{ textDecoration: 'underline', color: '#4469FF' }}>sign up</span>.
         </p>
       </div>
     </div>
   );
 }
 
-export default LoginBox;
+export default ForgotPass;
