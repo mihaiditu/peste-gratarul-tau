@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Group89 from './assets/images/Group 89.svg';
 import Group89b from './assets/images/Group 89b.svg';
 import Group89c from './assets/images/Group 89c.svg';
@@ -11,6 +12,7 @@ function Navbar() {
   const [screenCategory, setScreenCategory] = useState('desktop');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isLoggedIn, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const updateCategory = () => {
@@ -46,6 +48,11 @@ function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleNavigation = (path) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
+
   return (
     <div
       style={{
@@ -62,11 +69,13 @@ function Navbar() {
     >
       <img
         src={getLogo()}
+        onClick={() => handleNavigation('/')}
         style={{
           height: '56px',
           marginLeft: '38px',
           display: 'block',
           objectFit: 'contain',
+          cursor: 'pointer',
         }}
       />
 
@@ -104,6 +113,7 @@ function Navbar() {
               {isLoggedIn ? (
                 <>
                   <NavButton
+                    onClick={() => handleNavigation('/profile')}
                     style={{
                       fontSize: '16px',
                       textAlign: 'left',
@@ -113,6 +123,7 @@ function Navbar() {
                     Profil
                   </NavButton>
                   <NavButton
+                    onClick={() => handleNavigation('/')}
                     style={{
                       fontSize: '16px',
                       textAlign: 'left',
@@ -122,7 +133,10 @@ function Navbar() {
                     Best grills
                   </NavButton>
                   <NavButton
-                    onClick={logout}
+                    onClick={() => {
+                      logout();
+                      handleNavigation('/');
+                    }}
                     style={{
                       fontSize: '16px',
                       textAlign: 'left',
@@ -135,6 +149,7 @@ function Navbar() {
               ) : (
                 <>
                   <NavButton
+                    onClick={() => handleNavigation('/')}
                     style={{
                       fontSize: '16px',
                       textAlign: 'left',
@@ -144,6 +159,7 @@ function Navbar() {
                     Best grills
                   </NavButton>
                   <NavButton
+                    onClick={() => handleNavigation('/login')}
                     style={{
                       fontSize: '16px',
                       textAlign: 'left',
@@ -153,6 +169,7 @@ function Navbar() {
                     Login
                   </NavButton>
                   <NavButton
+                    onClick={() => handleNavigation('/register')} 
                     style={{
                       fontSize: '16px',
                       textAlign: 'left',
@@ -178,17 +195,33 @@ function Navbar() {
         >
           {isLoggedIn ? (
             <>
-              <NavButton style={{ fontSize: '24px' }}>Profil</NavButton>
-              <NavButton style={{ fontSize: '24px' }}>Best grills</NavButton>
-              <NavButton onClick={logout} style={{ fontSize: '24px' }}>
+              <NavButton onClick={() => handleNavigation('/profile')} style={{ fontSize: '24px' }}>
+                Profil
+              </NavButton>
+              <NavButton onClick={() => handleNavigation('/')} style={{ fontSize: '24px' }}>
+                Best grills
+              </NavButton>
+              <NavButton 
+                onClick={() => {
+                  logout();
+                  handleNavigation('/');
+                }} 
+                style={{ fontSize: '24px' }}
+              >
                 Logout
               </NavButton>
             </>
           ) : (
             <>
-              <NavButton style={{ fontSize: '24px' }}>Best grills</NavButton>
-              <NavButton style={{ fontSize: '24px' }}>Login</NavButton>
-              <NavButton style={{ fontSize: '24px' }}>Register</NavButton>
+              <NavButton onClick={() => handleNavigation('/')} style={{ fontSize: '24px' }}>
+                Best grills
+              </NavButton>
+              <NavButton onClick={() => handleNavigation('/login')} style={{ fontSize: '24px' }}>
+                Login
+              </NavButton>
+              <NavButton onClick={() => handleNavigation('/register')} style={{ fontSize: '24px' }}>
+                Register
+              </NavButton>
             </>
           )}
         </div>
