@@ -1,34 +1,199 @@
+import React, { useState, useEffect } from 'react';
 import Group89 from './assets/images/Group 89.svg';
+import Group89b from './assets/images/Group 89b.svg';
+import Group89c from './assets/images/Group 89c.svg';
+import Group124 from './assets/images/Group 124.svg';
+import { getScreenCategory } from './ScreenCategory.js';
 
 function Navbar() {
+  const [screenCategory, setScreenCategory] = useState('desktop');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const updateCategory = () => {
+      setScreenCategory(getScreenCategory());
+    };
+
+    updateCategory();
+    window.addEventListener('resize', updateCategory);
+    return () => window.removeEventListener('resize', updateCategory);
+  }, []);
+
+  const getLogo = () => {
+    switch (screenCategory) {
+      case 'mobile':
+        return Group89c;
+      case 'medium':
+        return Group89b;
+      case 'desktop':
+      default:
+        return Group89;
+    }
+  };
+
+  const getNavGap = () => {
+    return screenCategory === 'medium' ? '75px' : '85px';
+  };
+
+  const getNavbarHeight = () => {
+    return screenCategory === 'mobile' ? '75px' : '97px';
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div
       style={{
         width: '100%',
-        height: '97px',
+        height: getNavbarHeight(),
         backgroundColor: '#721D08',
         borderRadius: '0 0 25px 25px',
         boxShadow: '0px 1px 14px #021B2C',
         position: 'relative',
         display: 'flex',
         alignItems: 'center',
+        zIndex: 100,
       }}
     >
       <img
-        src={Group89}
-        style={{ height: '56px', marginLeft: '38px', display: 'block' }}
+        src={getLogo()}
+        style={{
+          height: '56px',
+          marginLeft: '38px',
+          display: 'block',
+          objectFit: 'contain',
+        }}
       />
-      <div style={{ marginLeft: 'auto', display: 'flex', gap: '100px', alignItems: 'center', marginRight: '40px' }}>
-        <button style={{ background: 'none', border: 'none', color: 'white', fontSize: '24px', cursor: 'pointer', fontFamily: 'Montserrat', fontWeight: 'normal' }}>
-          Best grills
-        </button>
-        <button style={{ background: 'none', border: 'none', color: 'white', fontSize: '24px', cursor: 'pointer', fontFamily: 'Montserrat', fontWeight: 'normal' }}>
-          Login
-        </button>
-        <button style={{ background: 'none', border: 'none', color: 'white', fontSize: '24px', cursor: 'pointer', fontFamily: 'Montserrat', fontWeight: 'normal' }}>
-          Register
-        </button>
-      </div>
+
+      {screenCategory === 'mobile' ? (
+        <div style={{ marginLeft: 'auto', marginRight: '40px', position: 'relative' }}>
+          <img
+            src={Group124}
+            onClick={toggleMenu}
+            style={{
+              cursor: 'pointer',
+              display: 'block',
+              height: 'auto',
+            }}
+          />
+          {isMenuOpen && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '50px',
+                right: '0',
+                width: '133px',
+                height: '151px',
+                backgroundColor: '#721D08',
+                borderRadius: '0',
+                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+                gap: '15px',
+                paddingLeft: '20px',
+                zIndex: 101,
+              }}
+            >
+              <button
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'white',
+                  fontSize: '20px',
+                  cursor: 'pointer',
+                  fontFamily: 'Montserrat',
+                  fontWeight: 'normal',
+                  textAlign: 'left',
+                }}
+              >
+                Best grills
+              </button>
+              <button
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'white',
+                  fontSize: '20px',
+                  cursor: 'pointer',
+                  fontFamily: 'Montserrat',
+                  fontWeight: 'normal',
+                  textAlign: 'left',
+                }}
+              >
+                Login
+              </button>
+              <button
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'white',
+                  fontSize: '20px',
+                  cursor: 'pointer',
+                  fontFamily: 'Montserrat',
+                  fontWeight: 'normal',
+                  textAlign: 'left',
+                }}
+              >
+                Register
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div
+          style={{
+            marginLeft: 'auto',
+            display: 'flex',
+            gap: getNavGap(),
+            alignItems: 'center',
+            marginRight: '40px',
+          }}
+        >
+          <button
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'white',
+              fontSize: '24px',
+              cursor: 'pointer',
+              fontFamily: 'Montserrat',
+              fontWeight: 'normal',
+            }}
+          >
+            Best grills
+          </button>
+          <button
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'white',
+              fontSize: '24px',
+              cursor: 'pointer',
+              fontFamily: 'Montserrat',
+              fontWeight: 'normal',
+            }}
+          >
+            Login
+          </button>
+          <button
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'white',
+              fontSize: '24px',
+              cursor: 'pointer',
+              fontFamily: 'Montserrat',
+              fontWeight: 'normal',
+            }}
+          >
+            Register
+          </button>
+        </div>
+      )}
     </div>
   );
 }
