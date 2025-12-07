@@ -4,37 +4,13 @@ import Group89b from './assets/images/Group 89b.svg';
 import Group89c from './assets/images/Group 89c.svg';
 import Group124 from './assets/images/Group 124.svg';
 import { getScreenCategory } from './ScreenCategory.js';
-
-// Reusable Button Component
-const NavButton = ({ children, onClick, style }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <button
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick}
-      style={{
-        background: isHovered ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-        border: 'none',
-        color: 'white',
-        cursor: 'pointer',
-        fontFamily: 'Montserrat',
-        fontWeight: 'normal',
-        borderRadius: '8px',
-        padding: '8px 12px',
-        transition: 'background-color 0.2s ease',
-        ...style,
-      }}
-    >
-      {children}
-    </button>
-  );
-};
+import { useAuth } from './AuthContext.js';
+import NavButton from './NavButton';
 
 function Navbar() {
   const [screenCategory, setScreenCategory] = useState('desktop');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isLoggedIn, logout } = useAuth();
 
   useEffect(() => {
     const updateCategory = () => {
@@ -120,38 +96,73 @@ function Navbar() {
                 flexDirection: 'column',
                 alignItems: 'flex-start',
                 justifyContent: 'center',
-                gap: '5px', // Reduced gap slightly to account for button padding
-                paddingLeft: '10px', // Adjusted padding to align with button padding
+                gap: '5px',
+                paddingLeft: '10px',
                 zIndex: 101,
               }}
             >
-              <NavButton
-                style={{
-                  fontSize: '16px',
-                  textAlign: 'left',
-                  width: '90%', // Ensure hover effect spans width
-                }}
-              >
-                Best grills
-              </NavButton>
-              <NavButton
-                style={{
-                  fontSize: '16px',
-                  textAlign: 'left',
-                  width: '90%',
-                }}
-              >
-                Login
-              </NavButton>
-              <NavButton
-                style={{
-                  fontSize: '16px',
-                  textAlign: 'left',
-                  width: '90%',
-                }}
-              >
-                Register
-              </NavButton>
+              {isLoggedIn ? (
+                <>
+                  <NavButton
+                    style={{
+                      fontSize: '16px',
+                      textAlign: 'left',
+                      width: '90%',
+                    }}
+                  >
+                    Profil
+                  </NavButton>
+                  <NavButton
+                    style={{
+                      fontSize: '16px',
+                      textAlign: 'left',
+                      width: '90%',
+                    }}
+                  >
+                    Best grills
+                  </NavButton>
+                  <NavButton
+                    onClick={logout}
+                    style={{
+                      fontSize: '16px',
+                      textAlign: 'left',
+                      width: '90%',
+                    }}
+                  >
+                    Logout
+                  </NavButton>
+                </>
+              ) : (
+                <>
+                  <NavButton
+                    style={{
+                      fontSize: '16px',
+                      textAlign: 'left',
+                      width: '90%',
+                    }}
+                  >
+                    Best grills
+                  </NavButton>
+                  <NavButton
+                    style={{
+                      fontSize: '16px',
+                      textAlign: 'left',
+                      width: '90%',
+                    }}
+                  >
+                    Login
+                  </NavButton>
+                  <NavButton
+                    style={{
+                      fontSize: '16px',
+                      textAlign: 'left',
+                      width: '90%',
+                    }}
+                  >
+                    Register
+                  </NavButton>
+                </>
+              )}
             </div>
           )}
         </div>
@@ -165,9 +176,21 @@ function Navbar() {
             marginRight: '40px',
           }}
         >
-          <NavButton style={{ fontSize: '24px' }}>Best grills</NavButton>
-          <NavButton style={{ fontSize: '24px' }}>Login</NavButton>
-          <NavButton style={{ fontSize: '24px' }}>Register</NavButton>
+          {isLoggedIn ? (
+            <>
+              <NavButton style={{ fontSize: '24px' }}>Profil</NavButton>
+              <NavButton style={{ fontSize: '24px' }}>Best grills</NavButton>
+              <NavButton onClick={logout} style={{ fontSize: '24px' }}>
+                Logout
+              </NavButton>
+            </>
+          ) : (
+            <>
+              <NavButton style={{ fontSize: '24px' }}>Best grills</NavButton>
+              <NavButton style={{ fontSize: '24px' }}>Login</NavButton>
+              <NavButton style={{ fontSize: '24px' }}>Register</NavButton>
+            </>
+          )}
         </div>
       )}
     </div>

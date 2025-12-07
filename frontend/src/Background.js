@@ -1,11 +1,11 @@
-import { useState, useEffect, cacheSignal } from 'react';
+import { useState, useEffect } from 'react';
 import Group110 from './assets/images/Group 110.svg';
 import Group133 from './assets/images/Group 133.svg';
 import Group142 from './assets/images/Group 142.svg';
-import PYG from './assets/images/Pimp Your Grill.svg';
 import { getScreenCategory } from './ScreenCategory.js';
+import PygLogo from './PygLogo';
 
-function Background() {
+function Background({ showLogo = true }) {
   const [screenCategory, setScreenCategory] = useState('desktop');
 
   useEffect(() => {
@@ -27,30 +27,6 @@ function Background() {
       case 'desktop':
       default:
         return Group110;
-    }
-  };
-
-  const getPYGsize = () => {
-    switch (screenCategory) {
-      case 'mobile':
-        return '60%';
-      case 'medium':
-        return '45%';
-      case 'desktop':
-      default:
-        return '30%';
-    }
-  };
-
-  const getPYGmargin = () => {
-    switch (screenCategory) {
-      case 'mobile':
-        return '0%';
-      case 'medium':
-        return '0%';
-      case 'desktop':
-      default:
-        return '-15%';
     }
   };
 
@@ -79,18 +55,7 @@ function Background() {
         }}
       />
 
-      <img
-        src={PYG}
-        style={{
-          width: getPYGsize(),
-          height: 'auto',
-          objectFit: 'contain',
-          display: 'block',
-          gridArea: 'stack',
-          placeSelf: 'center',
-          marginTop: getPYGmargin(),
-        }}
-      />
+      {showLogo && <PygLogo screenCategory={screenCategory} />}
     </div>
   );
 }
