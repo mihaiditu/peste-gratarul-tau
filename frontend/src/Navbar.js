@@ -123,7 +123,7 @@ function Navbar() {
                     Profil
                   </NavButton>
                   <NavButton
-                    onClick={() => handleNavigation('/')}
+                    onClick={() => handleNavigation('/bestgrills')}
                     style={{
                       fontSize: '16px',
                       textAlign: 'left',
@@ -149,7 +149,7 @@ function Navbar() {
               ) : (
                 <>
                   <NavButton
-                    onClick={() => handleNavigation('/')}
+                    onClick={() => handleNavigation('/bestgrills')}
                     style={{
                       fontSize: '16px',
                       textAlign: 'left',
@@ -198,7 +198,7 @@ function Navbar() {
               <NavButton onClick={() => handleNavigation('/profile')} style={{ fontSize: '24px' }}>
                 Profil
               </NavButton>
-              <NavButton onClick={() => handleNavigation('/')} style={{ fontSize: '24px' }}>
+              <NavButton onClick={() => handleNavigation('/bestgrills')} style={{ fontSize: '24px' }}>
                 Best grills
               </NavButton>
               <NavButton 
@@ -213,7 +213,7 @@ function Navbar() {
             </>
           ) : (
             <>
-              <NavButton onClick={() => handleNavigation('/')} style={{ fontSize: '24px' }}>
+              <NavButton onClick={() => handleNavigation('/bestgrills')} style={{ fontSize: '24px' }}>
                 Best grills
               </NavButton>
               <NavButton onClick={() => handleNavigation('/login')} style={{ fontSize: '24px' }}>
