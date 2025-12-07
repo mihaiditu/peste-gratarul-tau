@@ -5,6 +5,33 @@ import Group89c from './assets/images/Group 89c.svg';
 import Group124 from './assets/images/Group 124.svg';
 import { getScreenCategory } from './ScreenCategory.js';
 
+// Reusable Button Component
+const NavButton = ({ children, onClick, style }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <button
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={onClick}
+      style={{
+        background: isHovered ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+        border: 'none',
+        color: 'white',
+        cursor: 'pointer',
+        fontFamily: 'Montserrat',
+        fontWeight: 'normal',
+        borderRadius: '8px',
+        padding: '8px 12px',
+        transition: 'background-color 0.2s ease',
+        ...style,
+      }}
+    >
+      {children}
+    </button>
+  );
+};
+
 function Navbar() {
   const [screenCategory, setScreenCategory] = useState('desktop');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -93,53 +120,38 @@ function Navbar() {
                 flexDirection: 'column',
                 alignItems: 'flex-start',
                 justifyContent: 'center',
-                gap: '15px',
-                paddingLeft: '20px',
+                gap: '5px', // Reduced gap slightly to account for button padding
+                paddingLeft: '10px', // Adjusted padding to align with button padding
                 zIndex: 101,
               }}
             >
-              <button
+              <NavButton
                 style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'white',
-                  fontSize: '20px',
-                  cursor: 'pointer',
-                  fontFamily: 'Montserrat',
-                  fontWeight: 'normal',
+                  fontSize: '16px',
                   textAlign: 'left',
+                  width: '90%', // Ensure hover effect spans width
                 }}
               >
                 Best grills
-              </button>
-              <button
+              </NavButton>
+              <NavButton
                 style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'white',
-                  fontSize: '20px',
-                  cursor: 'pointer',
-                  fontFamily: 'Montserrat',
-                  fontWeight: 'normal',
+                  fontSize: '16px',
                   textAlign: 'left',
+                  width: '90%',
                 }}
               >
                 Login
-              </button>
-              <button
+              </NavButton>
+              <NavButton
                 style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'white',
-                  fontSize: '20px',
-                  cursor: 'pointer',
-                  fontFamily: 'Montserrat',
-                  fontWeight: 'normal',
+                  fontSize: '16px',
                   textAlign: 'left',
+                  width: '90%',
                 }}
               >
                 Register
-              </button>
+              </NavButton>
             </div>
           )}
         </div>
@@ -153,45 +165,9 @@ function Navbar() {
             marginRight: '40px',
           }}
         >
-          <button
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'white',
-              fontSize: '24px',
-              cursor: 'pointer',
-              fontFamily: 'Montserrat',
-              fontWeight: 'normal',
-            }}
-          >
-            Best grills
-          </button>
-          <button
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'white',
-              fontSize: '24px',
-              cursor: 'pointer',
-              fontFamily: 'Montserrat',
-              fontWeight: 'normal',
-            }}
-          >
-            Login
-          </button>
-          <button
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'white',
-              fontSize: '24px',
-              cursor: 'pointer',
-              fontFamily: 'Montserrat',
-              fontWeight: 'normal',
-            }}
-          >
-            Register
-          </button>
+          <NavButton style={{ fontSize: '24px' }}>Best grills</NavButton>
+          <NavButton style={{ fontSize: '24px' }}>Login</NavButton>
+          <NavButton style={{ fontSize: '24px' }}>Register</NavButton>
         </div>
       )}
     </div>
