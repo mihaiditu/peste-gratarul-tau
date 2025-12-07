@@ -4,7 +4,7 @@ import { getScreenCategory } from './ScreenCategory.js';
 import Navbar from './Navbar';
 import Background from './Background';
 import { useAuth } from './AuthContext';
-import GrillPopup from './GrillPopup'; // Import the new component
+import GrillPopup from './GrillPopup';
 
 import ImageGratar from './assets/images/image 10.png';
 import Like from './assets/images/like.svg';
@@ -14,7 +14,7 @@ function Profile() {
   const navigate = useNavigate();
   const [screenCategory, setScreenCategory] = useState('desktop');
   const [likedGrills, setLikedGrills] = useState({});
-  const [selectedGrill, setSelectedGrill] = useState(null); // State for popup
+  const [selectedGrill, setSelectedGrill] = useState(null);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -32,14 +32,18 @@ function Profile() {
     setSelectedGrill(grill);
   };
 
+  // Helper to safely get the username or name
+  const currentUsername = user?.username || user?.name || 'anonymous';
+  const currentName = user?.name || user?.username || 'anonymous';
+
   const myGrills = useMemo(() => [
-    { id: 1, username: user?.username ?? 'anonymous', name: 'Grillul meu grilat', likes: 55, description: 'its grillin time' },
-    { id: 2, username: user?.username ?? 'anonymous', name: 'Grillul meu grilat 2', likes: 72, description: 'oh im grillin it' },
-    { id: 3, username: user?.username ?? 'anonymous', name: 'GREAL', likes: 34, description: 'fr fr' },
-    { id: 4, username: user?.username ?? 'anonymous', name: 'Mega Knight Toaster', likes: 90, description: 'imi place sa joc mega knight' },
-    { id: 5, username: user?.username ?? 'anonymous', name: 'Grillul meu grilat 3', likes: 61, description: '6 7' },
-    { id: 6, username: user?.username ?? 'anonymous', name: 'cabum', likes: 49, description: 'cabum' }
-  ], [user]);
+    { id: 1, username: currentUsername, name: 'Grillul meu grilat', likes: 55, description: 'its grillin time' },
+    { id: 2, username: currentUsername, name: 'Grillul meu grilat 2', likes: 72, description: 'oh im grillin it' },
+    { id: 3, username: currentUsername, name: 'GREAL', likes: 34, description: 'fr fr' },
+    { id: 4, username: currentUsername, name: 'Mega Knight Toaster', likes: 90, description: 'imi place sa joc mega knight' },
+    { id: 5, username: currentUsername, name: 'Grillul meu grilat 3', likes: 61, description: '6 7' },
+    { id: 6, username: currentUsername, name: 'cabum', likes: 49, description: 'cabum' }
+  ], [currentUsername]);
 
   const getPanelWidth = () => screenCategory === 'mobile' ? '90%' : screenCategory === 'medium' ? '500px' : '751px';
   const getPanelHeight = () => screenCategory === 'mobile' ? '220px' : screenCategory === 'medium' ? '270px' : '320px';
@@ -74,7 +78,7 @@ function Profile() {
 
   const GrillCard = ({ grill }) => (
     <div 
-      onClick={() => handleCardClick(grill)} // Click handler for popup
+      onClick={() => handleCardClick(grill)} 
       style={{
         backgroundColor: '#D9D9D9', borderRadius: '15px', padding: '15px', marginBottom: '15px', color: '#000', fontFamily: 'Montserrat', width: '360px', boxShadow: '0px 4px 10px rgba(0,0,0,0.5)',
         cursor: 'pointer', transition: 'transform 0.2s'
@@ -91,7 +95,7 @@ function Profile() {
         <img 
           src={likedGrills[grill.id] ? Like : NoLike} 
           alt="like" 
-          onClick={(e) => { e.stopPropagation(); handleLike(grill.id); }} // Stop propagation
+          onClick={(e) => { e.stopPropagation(); handleLike(grill.id); }} 
           style={{ cursor: 'pointer', width: '56px', height: '56px', marginRight: '8px', userSelect: 'none' }} 
         />
         <span style={{ fontSize: '24px', fontWeight: 'bold' }}>{grill.likes + (likedGrills[grill.id] ? 1 : 0)}</span>
@@ -128,7 +132,8 @@ function Profile() {
             flexDirection: 'column',
             justifyContent: 'center'
           }}>
-            <div style={inputContainerStyle}>Name: {user?.username ?? 'anonymous'}</div>
+            {/* UPDATED: Checks for Name, then Username, then 'anonymous' */}
+            <div style={inputContainerStyle}>Name: {currentName}</div>
             <div style={inputContainerStyle}>E-mail: {user?.email ?? '-'}</div>
             <div style={inputContainerStyle}>Telephone: {user?.phone ?? '-'}</div>
           </div>
@@ -180,7 +185,7 @@ function Profile() {
       <GrillPopup 
         grill={selectedGrill} 
         onClose={() => setSelectedGrill(null)} 
-        isOwner={true} // Enabled for Profile page
+        isOwner={true} 
         isLiked={selectedGrill ? likedGrills[selectedGrill.id] : false}
         onLikeToggle={handleLike}
       />

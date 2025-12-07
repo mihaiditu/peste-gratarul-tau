@@ -47,6 +47,7 @@ function RegisterBox() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          username: formData.name, // <--- HERE IS THE FIX: We use the name as the username
           name: formData.name,
           phone: formData.phone,
           email: formData.email,
