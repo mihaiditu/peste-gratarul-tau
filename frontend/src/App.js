@@ -6,13 +6,14 @@ import Homepage from './Homepage';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import BestGrills from './BestGrills';
+import Profile from './Profile';
 import { AuthProvider } from './AuthContext';
 import { BrowserRouter } from 'react-router-dom';
 
 function App() {
   return (
-    <BrowserRouter>
     <AuthProvider>
+    <BrowserRouter>
       <Routes>
         <Route 
           path="/" 
@@ -29,20 +30,11 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/bestgrills" element={<BestGrills />} />
 
-        <Route 
-          path="/profile" 
-          element={
-            <>
-              <Navbar />
-              <div style={{ textAlign: 'center', marginTop: '50px', color: '#721D08', fontFamily: 'Montserrat', fontSize: '24px' }}>
-                Profile Page Coming Soon
-              </div>
-            </>
-          } 
-        />
+        <Route path="/profile" element={<Profile />} />
+
       </Routes>
-    </AuthProvider>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 
