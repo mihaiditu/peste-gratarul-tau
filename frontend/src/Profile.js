@@ -4,6 +4,7 @@ import { getScreenCategory } from './ScreenCategory.js';
 import Navbar from './Navbar';
 import Background from './Background';
 import { useAuth } from './AuthContext';
+import GrillPopup from './GrillPopup'; // Import the new component
 
 import ImageGratar from './assets/images/image 10.png';
 import Like from './assets/images/like.svg';
@@ -13,6 +14,7 @@ function Profile() {
   const navigate = useNavigate();
   const [screenCategory, setScreenCategory] = useState('desktop');
   const [likedGrills, setLikedGrills] = useState({});
+  const [selectedGrill, setSelectedGrill] = useState(null); // State for popup
   const { user } = useAuth();
 
   useEffect(() => {
@@ -24,6 +26,10 @@ function Profile() {
 
   const handleLike = (grillId) => {
     setLikedGrills(prev => ({ ...prev, [grillId]: !prev[grillId] }));
+  };
+
+  const handleCardClick = (grill) => {
+    setSelectedGrill(grill);
   };
 
   const myGrills = useMemo(() => [
@@ -67,16 +73,27 @@ function Profile() {
   };
 
   const GrillCard = ({ grill }) => (
-    <div style={{
-      backgroundColor: '#D9D9D9', borderRadius: '15px', padding: '15px', marginBottom: '15px', color: '#000', fontFamily: 'Montserrat', width: '360px', boxShadow: '0px 4px 10px rgba(0,0,0,0.5)'
-    }}>
+    <div 
+      onClick={() => handleCardClick(grill)} // Click handler for popup
+      style={{
+        backgroundColor: '#D9D9D9', borderRadius: '15px', padding: '15px', marginBottom: '15px', color: '#000', fontFamily: 'Montserrat', width: '360px', boxShadow: '0px 4px 10px rgba(0,0,0,0.5)',
+        cursor: 'pointer', transition: 'transform 0.2s'
+      }}
+      onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+      onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+    >
       <p style={{ fontSize: '26px', fontWeight: 'bold', margin: 0, marginBottom: '10px' }}>Pimp: {grill.username}</p>
       <div style={{ width: '100%', height: '360px', borderRadius: '10px', overflow: 'hidden', marginBottom: '10px', boxShadow: '0px 2px 8px rgba(0,0,0,0.3)' }}>
         <img src={ImageGratar} alt={grill.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       </div>
       <h3 style={{ fontSize: '26px', fontWeight: 'bold', margin: '0 0 10px 0' }}>{grill.name}</h3>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-        <img src={likedGrills[grill.id] ? Like : NoLike} alt="like" onClick={() => handleLike(grill.id)} style={{ cursor: 'pointer', width: '56px', height: '56px', marginRight: '8px', userSelect: 'none' }} />
+        <img 
+          src={likedGrills[grill.id] ? Like : NoLike} 
+          alt="like" 
+          onClick={(e) => { e.stopPropagation(); handleLike(grill.id); }} // Stop propagation
+          style={{ cursor: 'pointer', width: '56px', height: '56px', marginRight: '8px', userSelect: 'none' }} 
+        />
         <span style={{ fontSize: '24px', fontWeight: 'bold' }}>{grill.likes + (likedGrills[grill.id] ? 1 : 0)}</span>
       </div>
       <p style={{ fontSize: '20px', margin: 0, color: '#333', lineHeight: 1.4 }}>{grill.description}</p>
@@ -158,6 +175,15 @@ function Profile() {
           </div>
         </div>
       </div>
+
+      {/* Render Popup */}
+      <GrillPopup 
+        grill={selectedGrill} 
+        onClose={() => setSelectedGrill(null)} 
+        isOwner={true} // Enabled for Profile page
+        isLiked={selectedGrill ? likedGrills[selectedGrill.id] : false}
+        onLikeToggle={handleLike}
+      />
     </div>
   );
 }

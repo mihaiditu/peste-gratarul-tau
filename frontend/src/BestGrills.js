@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getScreenCategory } from './ScreenCategory.js';
 import Navbar from './Navbar';
 import Background from './Background';
+import GrillPopup from './GrillPopup'; // Import the new component
 
 import ImageGratar from './assets/images/image 10.png';
 import Like from './assets/images/like.svg';
@@ -13,6 +14,7 @@ function BestGrills() {
   const navigate = useNavigate();
   const [screenCategory, setScreenCategory] = useState('desktop');
   const [likedGrills, setLikedGrills] = useState({});
+  const [selectedGrill, setSelectedGrill] = useState(null); // State for popup
 
   useEffect(() => {
     const updateCategory = () => setScreenCategory(getScreenCategory());
@@ -26,6 +28,10 @@ function BestGrills() {
       ...prev,
       [grillId]: !prev[grillId]
     }));
+  };
+
+  const handleCardClick = (grill) => {
+    setSelectedGrill(grill);
   };
 
   const grillsForPimps = [
@@ -140,16 +146,23 @@ function BestGrills() {
   };
 
   const GrillCard = ({ grill }) => (
-    <div style={{
-      backgroundColor: '#D9D9D9',
-      borderRadius: '15px',
-      padding: '15px',
-      marginBottom: '15px',
-      color: '#000000',
-      fontFamily: 'Montserrat',
-      width: getGrillCardWidth(),
-      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.5)'
-    }}>
+    <div 
+      onClick={() => handleCardClick(grill)}
+      style={{
+        backgroundColor: '#D9D9D9',
+        borderRadius: '15px',
+        padding: '15px',
+        marginBottom: '15px',
+        color: '#000000',
+        fontFamily: 'Montserrat',
+        width: getGrillCardWidth(),
+        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.5)',
+        cursor: 'pointer',
+        transition: 'transform 0.2s'
+      }}
+      onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+      onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+    >
       <p style={{ 
         fontSize: getGrillTitleSize(), 
         color: '#000000', 
@@ -197,7 +210,7 @@ function BestGrills() {
         <img
           src={likedGrills[grill.id] ? Like : NoLike}
           alt="like"
-          onClick={() => handleLike(grill.id)}
+          onClick={(e) => { e.stopPropagation(); handleLike(grill.id); }}
           style={{
             cursor: 'pointer',
             width: getLikeIconSize(),
@@ -343,6 +356,15 @@ function BestGrills() {
           </div>
         </div>
       </div>
+
+      {/* Render Popup */}
+      <GrillPopup 
+        grill={selectedGrill} 
+        onClose={() => setSelectedGrill(null)} 
+        isOwner={false} // Disabled for BestGrills page
+        isLiked={selectedGrill ? likedGrills[selectedGrill.id] : false}
+        onLikeToggle={handleLike}
+      />
     </div>
   );
 }
