@@ -33,9 +33,9 @@ function Background() {
   const getPYGsize = () => {
     switch (screenCategory) {
       case 'mobile':
-        return '50%';
+        return '60%';
       case 'medium':
-        return '35%';
+        return '45%';
       case 'desktop':
       default:
         return '30%';
@@ -45,12 +45,12 @@ function Background() {
   const getPYGmargin = () => {
     switch (screenCategory) {
       case 'mobile':
-        return '0vh';
+        return '0%';
       case 'medium':
-        return '0vh';
+        return '0%';
       case 'desktop':
       default:
-        return '-25vh';
+        return '-15%';
     }
   };
 
@@ -60,11 +60,10 @@ function Background() {
     <div
       style={{
         width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        display: 'grid', 
+        maxWidth: '100%',
+        display: 'grid',
         gridTemplateAreas: '"stack"',
+        placeItems: 'center',
         marginTop: '10vh',
         marginBottom: '10vh',
       }}
@@ -72,8 +71,9 @@ function Background() {
       <img
         src={backgroundImage}
         style={{
-          width: '95%',
-          objectFit: 'cover',
+          width: '100%',
+          height: 'auto',
+          objectFit: 'contain',
           display: 'block',
           gridArea: 'stack',
         }}
@@ -83,7 +83,8 @@ function Background() {
         src={PYG}
         style={{
           width: getPYGsize(),
-          objectFit: 'cover',
+          height: 'auto',
+          objectFit: 'contain',
           display: 'block',
           gridArea: 'stack',
           placeSelf: 'center',
